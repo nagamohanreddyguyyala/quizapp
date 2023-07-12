@@ -1,0 +1,70 @@
+.button-unselect{
+    background-color: cornflowerblue;
+    color: white;
+    width: 75px;
+    height: 35px;
+    margin-bottom: 10px;
+
+}
+.button-select{
+    background-color: greenyellow;
+    color: white;
+    width: 75px;
+    height: 35px;
+    margin-bottom: 10px;
+
+}
+#centerdiv{
+    display: flex;
+    justify-content: center;
+    margin-top: 10%
+    
+} 
+.centerTwodivs{
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5%;
+    margin-right: 5%;
+   
+}
+.ceneterdiv{
+    
+    border: 2px slateblue dashed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 8%;
+    padding: 15px;
+}
+#btnSubmit{
+    background-color: green;
+    color:whitesmoke;
+    width: 75px;
+    height: 35px;
+    margin-bottom: 10px;
+
+}
+.btnSubmitceneterdiv{
+    
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 8%;
+    padding: 15px;
+}
+.button-start{
+    background-color: blue;
+    color: white;
+    width: 75px;
+    height: 35px;
+    margin-bottom: 10px;
+
+}
+.btncenterTwodivs{
+    display: flex;
+    justify-content:space-between;
+    margin-left: 5%;
+    margin-right: 5%;
+   
+}
