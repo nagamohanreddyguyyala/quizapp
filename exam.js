@@ -11,8 +11,8 @@ var answersData={
   "10":""
 
 }
+var local=location.origin;
 var count=0;
-//hi
 let currrentQuestion=1;
 $(document).ready(function(){
  console.log(gridColumns)
@@ -22,9 +22,16 @@ $(document).ready(function(){
  bindQuestionButtons(gridColumns)
  bindQuestion(currQuestion=1);
  $("#1").addClass("button-select");
+
  $("#btn").click(function(){
-  location.href="file:///C:/Users/guyya/Desktop/quizapp/exam.html"
+  location.href=local+"/exam.html"
  })
+ 
+ $("#close").click(function(){
+  close();
+  //location.href = location.origin+"/startpage.html";
+})
+
  $("button").click(function(){
   if($(this).text()=="Next"){
     let nextQuestion=currrentQuestion+1;
@@ -62,7 +69,7 @@ $(document).ready(function(){
       $(this).addClass("button-select");
       if($(this).text()=="SUBMIT"){
         let score=caluculateScore(answersData);
-        location.href="file:///C:/Users/guyya/Desktop/quizapp/result.html?score="+score+""
+        location.href=local+"/result.html?score="+score+""
       }
       bindQuestion(currQuestion);
   }
