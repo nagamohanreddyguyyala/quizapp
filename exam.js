@@ -11,41 +11,40 @@ var answersData={
   "10":""
 
 }
-var local=location.origin;
-var count=0;
+var savelaterQuestions={};
 let currrentQuestion=1;
 $(document).ready(function(){
  console.log(gridColumns)
  disablePrevAndNext(1)
  var fiveMinutes = 120 * 1
- startTimer(fiveMinutes);
- bindQuestionButtons(gridColumns)
+ //startTimer(fiveMinutes);
+ bindQuestionButtons(gridColumns);
  bindQuestion(currQuestion=1);
  $("#1").addClass("button-select");
 
  $("#btn").click(function(){
-  location.href=local+"/exam.html"
+  location.href="exam.html"
  })
  
- $("#close").click(function(){
-  close();
-  //location.href = location.origin+"/startpage.html";
-})
 
  $("button").click(function(){
-  if($(this).text()=="Next"){
+  if($(this).text()=="Save & Next"){
     let nextQuestion=currrentQuestion+1;
     let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
-    
     let currQuesNum=currrentQuestion;
     answersData[currQuesNum]=currCheckAnsw;
     $("#centerdiv").remove();
     $(".cmnbtn").removeClass('button-select');
     currrentQuestion=nextQuestion;
-
-    $("#"+currrentQuestion).addClass("button-select");
+    removeFromsavefromlaterObj(currrentQuestion);
+    saveForLaterStyling(currrentQuestion);
+   
+    //$("#"+currrentQuestion).addClass("button-select");
+    
     disablePrevAndNext(currrentQuestion);
+
     bindQuestion(nextQuestion);
+    
   }else if($(this).text()=="Previous"){
       let prevQuestion=currrentQuestion-1;
       let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
@@ -54,10 +53,27 @@ $(document).ready(function(){
       $("#centerdiv").remove();
       $(".cmnbtn").removeClass('button-select');
       currrentQuestion=prevQuestion;
-      $("#"+currrentQuestion).addClass("button-select");
+      saveForLaterStyling(currrentQuestion);
+      //$("#"+currrentQuestion).addClass("button-select");
       disablePrevAndNext(currrentQuestion);
       bindQuestion(prevQuestion);
-  }else{
+      
+  }else if($(this).text()=="Save For Later"){
+    let nextQuestion=currrentQuestion+1;
+    let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+    let currQuesNum=currrentQuestion
+    savelaterQuestions[currQuesNum]=currCheckAnsw;
+    answersData[currQuesNum]=currCheckAnsw;
+    $("#centerdiv").remove();
+    $(".cmnbtn").removeClass('button-select');
+    $("#"+currrentQuestion).addClass("btn btn-danger");
+    currrentQuestion=nextQuestion;
+    $("#"+currrentQuestion).addClass("button-select");
+
+    disablePrevAndNext(currrentQuestion);
+    bindQuestion(nextQuestion);
+  }
+  else{
       let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
       let currQuesNum=$(".button-select").text();
       answersData[currQuesNum]=currCheckAnsw;
@@ -69,11 +85,11 @@ $(document).ready(function(){
       $(this).addClass("button-select");
       if($(this).text()=="SUBMIT"){
         let score=caluculateScore(answersData);
-        location.href=local+"/result.html?score="+score+""
+        location.href="result.html?score="+score+""
       }
       bindQuestion(currQuestion);
   }
- 
+  
  })
   
 })
@@ -168,7 +184,7 @@ $("#questionNums").html(firstDiv);
 }
 function bindQuestion(ques=1){
  
-  let quesDiv="<div id=centerdiv><div id='divQues'>"
+  let quesDiv="<div class='card' style='background-color:white;width: 55rem;border-radius:15px;padding:15px' id=centerdiv><div id='divQues'>"
   let quesandans=gridColumns[ques]
   for(let i in quesandans){
   if(i=="question"){
@@ -202,6 +218,7 @@ function startTimer(duration) {
   }, 1000);
 }
 function caluculateScore(answersObj){
+  let count=0;
   for (let ques in answersObj){
     let k=ques;
   if(answersObj[k]==answers[k])
@@ -213,19 +230,50 @@ function caluculateScore(answersObj){
 function disablePrevAndNext(currrentQuestion){
   if(currrentQuestion==10){
     $("#btnforward").prop("disabled",true);
-    $("#btnprevious").prop("disabled",false)
+    $("#btnprevious").prop("disabled",false);
+    $("#btnpreviewlater").prop("disabled",true)
   }else if(currrentQuestion==1){
       
       $("#btnprevious").prop("disabled",true)
       $("#btnforward").prop("disabled",false);
+      $("#btnpreviewlater").prop("disabled",false);
     
   }else{
     $("#btnprevious").prop("disabled",false);
     $("#btnforward").prop("disabled",false);
+    $("#btnpreviewlater").prop("disabled",false);
   }
 }
 function selectedQuestions(){
   if(![""," ",undefined].includes(currCheckAnsw)){
     $("this").addClass("button-select");
   }
+}
+function saveForLaterStyling(currrentQuestion){
+  
+  
+  $(".cmnbtn").removeClass('btn btn-danger');
+  $(".cmnbtn").removeClass('btn btn-select');
+    for(let ques in savelaterQuestions){
+      if(currrentQuestion==ques){
+        $("#"+currrentQuestion).addClass("savelater");
+        $("#"+currrentQuestion).addClass("button-select");
+      }else if(currrentQuestion!=ques){
+        $("#"+ques).addClass("btn btn-danger");
+      }else{
+          $("#"+currrentQuestion).addClass("button-select");
+        }
+    }
+    $("#"+currrentQuestion).addClass("button-select");
+ 
+  
+} 
+function removeFromsavefromlaterObj(currrentQuestion){
+  let que=parseInt(currrentQuestion)-1
+    if($("#"+que).hasClass("savelater")){
+      let conToStr=String(que)
+      delete savelaterQuestions[conToStr];
+      $("#"+parseInt(currrentQuestion)-1).removeClass("savelater btn-danger")
+    }
+ 
 }
