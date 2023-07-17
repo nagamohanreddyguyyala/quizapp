@@ -217,16 +217,16 @@ function startTimer(duration) {
       }
   }, 1000);
 }
-function caluculateScore(answersObj){
-  let count=0;
-  for (let ques in answersObj){
-    let k=ques;
-  if(answersObj[k]==answers[k])
-  count++;
-  }
-  console.log(count)
-  return count;   
-}
+// function caluculateScore(answersObj){
+//   let count=0;
+//   for (let ques in answersObj){
+//     let k=ques;
+//   if(answersObj[k]==answers[k])
+//   count++;
+//   }
+//   console.log(count)
+//   return count;   
+// }
 function disablePrevAndNext(currrentQuestion){
   if(currrentQuestion==10){
     $("#btnforward").prop("disabled",true);
@@ -277,3 +277,18 @@ function removeFromsavefromlaterObj(currrentQuestion){
     }
  
 }
+function caluculateScore(answersObj){
+  let count=0;
+    for (let ques in answersObj){
+      if(ques in savelaterQuestions){
+        continue;
+      }else{
+        let k=ques;
+        if(answersObj[k]==answers[k]){
+          count++;
+        }
+      }
+    }
+    console.log(count)
+  return count;        
+  }
