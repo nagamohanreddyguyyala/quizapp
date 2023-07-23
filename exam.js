@@ -12,86 +12,161 @@ var answersData={
 
 }
 var savelaterQuestions={};
-let currrentQuestion=1;
+var currrentQuestion=1;
+var fiveMinutes = 120 * 1
 $(document).ready(function(){
  console.log(gridColumns)
  disablePrevAndNext(1)
- var fiveMinutes = 120 * 1
- //startTimer(fiveMinutes);
+ startTimer(fiveMinutes);
  bindQuestionButtons(gridColumns);
  bindQuestion(currQuestion=1);
  $("#1").addClass("button-select");
+ $("#btnSave").click(function(){
+  //var currrentQuestion=1;
+  let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+  //currrentQuestion=$(".button-select").text();
+  let currQuesNum=currrentQuestion;
+  answersData[currQuesNum]=currCheckAnsw;
+  // need to add toaster
+  removeFromsavefromlaterObj(currrentQuestion);
+  $("#"+currQuesNum).addClass('btn btn-success').addClass('saved');
+ })
+
+ $("#btnpreviewlater").click(function(){
+      let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+      let currQuesNum=currrentQuestion
+      savelaterQuestions[currQuesNum]=currCheckAnsw;
+      answersData[currQuesNum]=currCheckAnsw;
+      removeFromsavefromlaterObj(currrentQuestion);
+      $("#"+currrentQuestion).addClass("btn btn-danger").addClass("savelater");
+      
+ })
+
+ $("#btnNext").click(function(){
+    let nextQuestion=parseInt(currrentQuestion)+1;
+    $("#centerdiv").remove();
+    $(".cmnbtn").removeClass('button-select');
+    currrentQuestion=nextQuestion;
+    $("#"+currrentQuestion).addClass("button-select");
+    disablePrevAndNext(currrentQuestion);
+    bindQuestion(nextQuestion);
+    saveForLaterStyling(currrentQuestion);
+ })
+ $("#btnprevious").click(function(){
+      let prevQuestion=parseInt(currrentQuestion)-1;
+      $("#centerdiv").remove();
+      $(".cmnbtn").removeClass('button-select');
+      currrentQuestion=prevQuestion;
+      $("#"+currrentQuestion).addClass("button-select");
+      disablePrevAndNext(currrentQuestion);
+      bindQuestion(prevQuestion);
+      saveForLaterStyling(currrentQuestion);
+ })
+ $("#btnSubmit").click(function(e){
+    //let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+    //let currQuesNum=currrentQuestion;
+    //answersData[currQuesNum]=currCheckAnsw;
+    let score=caluculateScore(answersData);
+    $("#examQuesDiv").hide();
+    $("#resultModal").show();
+    $("#correctAnswers").append(score);
+    $(".showResult").trigger('click');
+   
+    
+    //location.href="startpage.html"
+  
+ })
+
+ $(".cmnbtn").click(function(){
+        $("#centerdiv").remove();
+        let currQuestion=$(this).attr("id");
+        currrentQuestion=parseInt(currQuestion);
+        disablePrevAndNext(currQuestion);
+        $(".cmnbtn").removeClass('button-select');
+        $(this).addClass("button-select");
+        bindQuestion(currQuestion);
+ })
 
  $("#btn").click(function(){
   location.href="exam.html"
  })
- 
-
- $("button").click(function(){
-  if($(this).text()=="Save & Next"){
-    let nextQuestion=currrentQuestion+1;
-    let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
-    let currQuesNum=currrentQuestion;
-    answersData[currQuesNum]=currCheckAnsw;
-    $("#centerdiv").remove();
-    $(".cmnbtn").removeClass('button-select');
-    currrentQuestion=nextQuestion;
-    removeFromsavefromlaterObj(currrentQuestion);
-    saveForLaterStyling(currrentQuestion);
-   
-    //$("#"+currrentQuestion).addClass("button-select");
-    
-    disablePrevAndNext(currrentQuestion);
-
-    bindQuestion(nextQuestion);
-    
-  }else if($(this).text()=="Previous"){
-      let prevQuestion=currrentQuestion-1;
-      let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
-      let currQuesNum=currrentQuestion;
-      answersData[currQuesNum]=currCheckAnsw;
-      $("#centerdiv").remove();
-      $(".cmnbtn").removeClass('button-select');
-      currrentQuestion=prevQuestion;
-      saveForLaterStyling(currrentQuestion);
-      //$("#"+currrentQuestion).addClass("button-select");
-      disablePrevAndNext(currrentQuestion);
-      bindQuestion(prevQuestion);
-      
-  }else if($(this).text()=="Save For Later"){
-    let nextQuestion=currrentQuestion+1;
-    let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
-    let currQuesNum=currrentQuestion
-    savelaterQuestions[currQuesNum]=currCheckAnsw;
-    answersData[currQuesNum]=currCheckAnsw;
-    $("#centerdiv").remove();
-    $(".cmnbtn").removeClass('button-select');
-    $("#"+currrentQuestion).addClass("btn btn-danger");
-    currrentQuestion=nextQuestion;
-    $("#"+currrentQuestion).addClass("button-select");
-
-    disablePrevAndNext(currrentQuestion);
-    bindQuestion(nextQuestion);
-  }
-  else{
-      let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
-      let currQuesNum=$(".button-select").text();
-      answersData[currQuesNum]=currCheckAnsw;
-      $("#centerdiv").remove();
-      let currQuestion=$(this).attr("id");
-      currrentQuestion=parseInt(currQuestion);
-      disablePrevAndNext(currrentQuestion);
-      $(".cmnbtn").removeClass('button-select');
-      $(this).addClass("button-select");
-      if($(this).text()=="SUBMIT"){
-        let score=caluculateScore(answersData);
-        location.href="result.html?score="+score+""
-      }
-      bindQuestion(currQuestion);
-  }
-  
+ $("#close").click(function(){
+  location.href="startpage.html"
  })
+ 
   
+
+//  $("button").click(function(){
+//   if($(this).text()=="Save & Next"){
+//     let nextQuestion=currrentQuestion+1;
+//     let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+//     let currQuesNum=currrentQuestion;
+//     answersData[currQuesNum]=currCheckAnsw;
+//     $("#centerdiv").remove();
+//     $(".cmnbtn").removeClass('button-select');
+//     currrentQuestion=nextQuestion;
+//     removeFromsavefromlaterObj(currrentQuestion);
+//     disablePrevAndNext(currrentQuestion);
+//     bindQuestion(nextQuestion);
+//     saveForLaterStyling(currrentQuestion);
+    
+//   }else if($(this).text()=="Previous"){
+//       let prevQuestion=currrentQuestion-1;
+//       let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+//       let currQuesNum=currrentQuestion;
+//       answersData[currQuesNum]=currCheckAnsw;
+//       $("#centerdiv").remove();
+//       $(".cmnbtn").removeClass('button-select');
+//       currrentQuestion=prevQuestion;
+//       //$("#"+currrentQuestion).addClass("button-select");
+//       disablePrevAndNext(currrentQuestion);
+//       bindQuestion(prevQuestion);
+//       saveForLaterStyling(currrentQuestion);
+//   }else if($(this).text()=="Save For Later"){
+//     let nextQuestion=currrentQuestion+1;
+//     let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+//     let currQuesNum=currrentQuestion
+//     savelaterQuestions[currQuesNum]=currCheckAnsw;
+//     answersData[currQuesNum]=currCheckAnsw;
+//     $("#centerdiv").remove();
+//     $(".cmnbtn").removeClass('button-select');
+//     $("#"+currrentQuestion).addClass("btn btn-danger");
+//     currrentQuestion=nextQuestion;
+//     $("#"+currrentQuestion).addClass("button-select");
+//     disablePrevAndNext(currrentQuestion);
+//     if(!(nextQuestion>10)){
+//       bindQuestion(nextQuestion);
+//     }else{
+//       bindQuestion(10);
+//       $("#btnforward").text("Save");
+//     }
+
+
+   
+//   }else if($(this).text()=="Save"){
+//     let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+//     let currQuesNum=currrentQuestion;
+//     answersData[currQuesNum]=currCheckAnsw;
+//   }
+//   else{
+//       let currCheckAnsw=$('input[type="radio"][name="answer"]:checked').val();
+//       let currQuesNum=$(".button-select").text();
+//       answersData[currQuesNum]=currCheckAnsw;
+//       $("#centerdiv").remove();
+//       let currQuestion=$(this).attr("id");
+//       currrentQuestion=parseInt(currQuestion);
+//       disablePrevAndNext(currrentQuestion);
+//       $(".cmnbtn").removeClass('button-select');
+//       $(this).addClass("button-select");
+//       if($(this).text()=="SUBMIT"){
+//         let score=caluculateScore(answersData);
+//         location.href="result.html?score="+score+""
+//       }
+//       bindQuestion(currQuestion);
+//   }
+  
+//  })
+
 })
 
 var gridColumns={
@@ -188,7 +263,7 @@ function bindQuestion(ques=1){
   let quesandans=gridColumns[ques]
   for(let i in quesandans){
   if(i=="question"){
-    quesDiv+="<label>"+ques+".</label><span>"+gridColumns[ques][i]+"</span><br>"
+    quesDiv+="<label><b>"+ques+"</b>.</label><span><b>"+gridColumns[ques][i]+"</b></span><br>"
   }else{
     quesDiv+="<span><input class='btnradio'type='radio' value='"+ques+i+"'name='answer'>"+gridColumns[ques][i]+"</span><br>"
   }
@@ -203,7 +278,7 @@ function bindQuestion(ques=1){
 }
 function startTimer(duration) {
   var timer = duration, minutes, seconds;
-  setInterval(function () {
+  var storeTimeInterval=setInterval(function () {
       minutes = parseInt(timer / 60, 10);
       seconds = parseInt(timer % 60, 10);
       minutes = minutes < 10 ? "0" + minutes : minutes;
@@ -213,34 +288,28 @@ function startTimer(duration) {
          // timer = duration;
           $("#lblinfo").text("")
           $('#time').text("UR EXAM DONE!");
-          $("#btnSubmit").trigger("click");
+          let score=caluculateScore(answersData);
+          $("#examQuesDiv").hide();
+          $("#resultModal").show();
+          $("#correctAnswers").append(score);
+          $(".showResult").trigger('click');
+          clearInterval(storeTimeInterval);
       }
   }, 1000);
 }
-// function caluculateScore(answersObj){
-//   let count=0;
-//   for (let ques in answersObj){
-//     let k=ques;
-//   if(answersObj[k]==answers[k])
-//   count++;
-//   }
-//   console.log(count)
-//   return count;   
-// }
+
 function disablePrevAndNext(currrentQuestion){
   if(currrentQuestion==10){
-    $("#btnforward").prop("disabled",true);
+    $("#btnNext").prop("disabled",true);
     $("#btnprevious").prop("disabled",false);
-    $("#btnpreviewlater").prop("disabled",true)
   }else if(currrentQuestion==1){
       
       $("#btnprevious").prop("disabled",true)
-      $("#btnforward").prop("disabled",false);
+      $("#btnNext").prop("disabled",false);
       $("#btnpreviewlater").prop("disabled",false);
-    
   }else{
     $("#btnprevious").prop("disabled",false);
-    $("#btnforward").prop("disabled",false);
+    $("#btnNext").prop("disabled",false);
     $("#btnpreviewlater").prop("disabled",false);
   }
 }
@@ -250,35 +319,42 @@ function selectedQuestions(){
   }
 }
 function saveForLaterStyling(currrentQuestion){
-  
-  
   $(".cmnbtn").removeClass('btn btn-danger');
   $(".cmnbtn").removeClass('btn btn-select');
-    for(let ques in savelaterQuestions){
-      if(currrentQuestion==ques){
-        $("#"+currrentQuestion).addClass("savelater");
-        $("#"+currrentQuestion).addClass("button-select");
-      }else if(currrentQuestion!=ques){
-        $("#"+ques).addClass("btn btn-danger");
+  $(".cmnbtn").removeClass('btn btn-success');
+    for(let que in answersData){
+      if(que==currrentQuestion){
+        $("#"+currrentQuestion).addClass("btn button-select");
+      }else if($("#"+que).hasClass("saved")){
+            $("#"+que).addClass("btn btn-success");
       }else{
-          $("#"+currrentQuestion).addClass("button-select");
+        if( $("#"+que).hasClass("savelater")){
+          $("#"+que).addClass("btn btn-danger")
         }
+      }
+      
     }
-    $("#"+currrentQuestion).addClass("button-select");
- 
-  
 } 
-function removeFromsavefromlaterObj(currrentQuestion){
-  let que=parseInt(currrentQuestion)-1
+
+function    removeFromsavefromlaterObj(currrentQuestion){
+  let que=parseInt(currrentQuestion)
     if($("#"+que).hasClass("savelater")){
       let conToStr=String(que)
       delete savelaterQuestions[conToStr];
-      $("#"+parseInt(currrentQuestion)-1).removeClass("savelater btn-danger")
+     $("#"+que).removeClass("savelater btn-danger")
+    $("#"+que).addClass('btn btn-success');
+    }else{
+      if($("#"+que).hasClass("saved")){
+        let conToStr=String(que)
+        delete savelaterQuestions[conToStr];
+        $("#"+que).removeClass("btn-success saved ")
+        $("#"+que).addClass('btn btn-danger');
+      }
     }
  
 }
 function caluculateScore(answersObj){
-  let count=0;
+    let count=0;
     for (let ques in answersObj){
       if(ques in savelaterQuestions){
         continue;
@@ -290,5 +366,5 @@ function caluculateScore(answersObj){
       }
     }
     console.log(count)
-  return count;        
+    return count;        
   }
