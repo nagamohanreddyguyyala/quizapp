@@ -7,6 +7,8 @@
     <title>Document</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -17,6 +19,33 @@
     <script src="exam.js"></script>
 </head>
 <body style="background-color: azure;">
+  <!-- div Result modal -->
+  <div id="resultModal">
+      <!-- Button trigger modal -->
+    <button type="button" style="display: none;" class="btn btn-primary showResult" data-toggle="modal" data-target="#exampleModalCenter">Check Result</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Your Score</h5>
+        <button type="button" style="display: none;" id="closeCross" class="close" data-dismiss="modal" aria-label="Close">
+          <span id="closeCross" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        
+        <span id="correctAnswers"><h1></h1></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+  </div>
+  <div id="examQuesDiv">
   <div class="centerTwodivs">
     <div id="quesDiv"></div>
     <div id="quesNumDiv">
@@ -30,8 +59,10 @@
   <div class="btncenterTwodivs">
     <button type="button" id="btnprevious" class="btn btn-primary">Previous</button>
     <button type="button" id="btnpreviewlater" class="btn btn-danger">Save For Later</button>
-    <button type="button" id="btnforward" class="btn btn-primary"><i class="fa-solid fa-circle-chevron-left " style="color: #135bd8;"></i>Save & Next</button>
+    <button type="button" id="btnSave" class="btn btn-success">Save Answer</button>
+    <button type="button" id="btnNext" class="btn btn-primary"><i class="fa-solid fa-circle-chevron-left " style="color: #135bd8;"></i>Next</button>
     <button  id="btnSubmit" type="button" class="btn btn-success">SUBMIT</button>
   </div>
+</div>
 </body>
 </html>
