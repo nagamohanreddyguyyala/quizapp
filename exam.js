@@ -17,7 +17,7 @@ var fiveMinutes = 120 * 1
 $(document).ready(function(){
  console.log(gridColumns)
  disablePrevAndNext(1)
- startTimer(fiveMinutes);
+ //startTimer(fiveMinutes);
  bindQuestionButtons(gridColumns);
  bindQuestion(currQuestion=1);
  $("#1").addClass("button-select");
@@ -368,3 +368,32 @@ function caluculateScore(answersObj){
     console.log(count)
     return count;        
   }
+let orderQuan=150;
+
+let STOCK=[10,10,130];
+var sum=STOCK[0]
+for(let i=1;i<=(STOCK.length);i++){
+    
+    var re=sum;
+    if(re==orderQuan){ 
+        console.log("got it")
+        
+    }else{
+        sum=re+STOCK[i]
+        console.log(sum)
+    }
+}
+q=40
+tg=0
+t=10
+tg=10
+t=20
+tg=20
+t=140>q
+
+q-tg
+t-20
+
+
+
+
