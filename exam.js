@@ -383,16 +383,7 @@ for(let i=1;i<=(STOCK.length);i++){
         console.log(sum)
     }
 }
-q=40
-tg=0
-t=10
-tg=10
-t=20
-tg=20
-t=140>q
 
-q-tg
-t-20
 
 
 
